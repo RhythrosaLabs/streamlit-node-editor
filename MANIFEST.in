@@ -1,0 +1,1 @@
+recursive-include streamlit_node_editor/frontend/build *
