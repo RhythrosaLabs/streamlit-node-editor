@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
+import { Streamlit } from "streamlit-component-lib";
 
 // ── Port type system (ComfyUI-style color coding) ─────────────────────────────
 const PORT_TYPES = {
@@ -128,18 +129,18 @@ function makeNode(type, x, y) {
   };
 }
 
-function portHeight(index) { return 34 + index * 26; }
+function portHeight(index) { return 44 + index * 28; }
 function nodeHeight(node) {
   const def = NODE_DEFS[node.type];
   if (node.collapsed) return 36;
   const portRows = Math.max(def.inputs.length, def.outputs.length);
-  const paramRows = def.params.length;
-  return 36 + portRows * 26 + paramRows * 34 + 12;
+  const paramH = def.params.reduce((sum, p) => sum + (p.type === "textarea" ? 60 : 34), 0);
+  return 44 + portRows * 28 + paramH + 16;
 }
 
 function getPortPos(node, side, index) {
   const y = node.y + portHeight(index);
-  const x = side === "output" ? node.x + node.width : node.x;
+  const x = side === "output" ? node.x + node.width + 1 : node.x - 1;
   return { x, y };
 }
 
@@ -152,23 +153,6 @@ function typesCompatible(a, b) {
 function wirePath(x1, y1, x2, y2) {
   const dx = Math.abs(x2 - x1) * 0.6 + 60;
   return `M ${x1} ${y1} C ${x1 + dx} ${y1} ${x2 - dx} ${y2} ${x2} ${y2}`;
-}
-
-// ── Port dot ──────────────────────────────────────────────────────────────────
-function Port({ x, y, type, side, connected, onStartWire, onCompleteWire, onRemoveWire }) {
-  const c = PORT_TYPES[type]?.color ?? "#71717a";
-  return (
-    <circle
-      cx={x} cy={y} r={6}
-      fill={connected ? c : "transparent"}
-      stroke={c}
-      strokeWidth={2}
-      style={{ cursor: "crosshair" }}
-      onMouseDown={e => { e.stopPropagation(); onStartWire && onStartWire(e); }}
-      onMouseUp={e => { e.stopPropagation(); onCompleteWire && onCompleteWire(e); }}
-      onContextMenu={e => { e.preventDefault(); e.stopPropagation(); onRemoveWire && onRemoveWire(); }}
-    />
-  );
 }
 
 // ── Node component ─────────────────────────────────────────────────────────────
@@ -195,8 +179,8 @@ function GraphNode({ node, selected, wiring, onSelect, onDragStart,
         strokeWidth={selected ? 1.5 : 1} />
 
       {/* Header */}
-      <rect width={node.width} height={32} rx={8} fill={def.headerColor} opacity={0.9} />
-      <rect y={24} width={node.width} height={8} fill={def.headerColor} opacity={0.9} />
+      <rect width={node.width} height={32} rx={8} ry={8} fill={def.headerColor} opacity={0.9} />
+      <rect y={24} width={node.width} height={12} fill={def.headerColor} opacity={0.9} />
 
       {/* Title */}
       <text x={10} y={21} fontFamily="'Fira Code', monospace" fontSize={12}
@@ -215,19 +199,18 @@ function GraphNode({ node, selected, wiring, onSelect, onDragStart,
         <>
           {/* Input ports */}
           {def.inputs.map((port, i) => {
-            const py = portHeight(i) - node.y + node.y - node.y + 36 + i * 26;
-            const relY = 36 + i * 26;
+            const relY = 44 + i * 28;
             const c = PORT_TYPES[port.type]?.color ?? "#71717a";
             const isConn = connectedInputs.has(i);
             return (
               <g key={`in-${i}`}>
-                <circle cx={0} cy={relY} r={6}
-                  fill={isConn ? c : "transparent"} stroke={c} strokeWidth={2}
+                <circle cx={-1} cy={relY} r={5.5}
+                  fill={isConn ? c : "#13131f"} stroke={c} strokeWidth={2}
                   style={{ cursor: "crosshair" }}
                   onMouseDown={e => { e.stopPropagation(); onPortMouseDown(e, node.id, "input", i, port.type); }}
                   onMouseUp={e => { e.stopPropagation(); onPortMouseUp(e, node.id, "input", i, port.type); }}
                 />
-                <text x={12} y={relY + 4} fontFamily="'Fira Code', monospace"
+                <text x={14} y={relY + 4} fontFamily="'Fira Code', monospace"
                   fontSize={10} fill={c} style={{ userSelect: "none", pointerEvents: "none" }}>
                   {port.name}
                 </text>
@@ -237,18 +220,18 @@ function GraphNode({ node, selected, wiring, onSelect, onDragStart,
 
           {/* Output ports */}
           {def.outputs.map((port, i) => {
-            const relY = 36 + i * 26;
+            const relY = 44 + i * 28;
             const c = PORT_TYPES[port.type]?.color ?? "#71717a";
             const isConn = connectedOutputs.has(i);
             return (
               <g key={`out-${i}`}>
-                <circle cx={node.width} cy={relY} r={6}
-                  fill={isConn ? c : "transparent"} stroke={c} strokeWidth={2}
+                <circle cx={node.width + 1} cy={relY} r={5.5}
+                  fill={isConn ? c : "#13131f"} stroke={c} strokeWidth={2}
                   style={{ cursor: "crosshair" }}
                   onMouseDown={e => { e.stopPropagation(); onPortMouseDown(e, node.id, "output", i, port.type); }}
                   onMouseUp={e => { e.stopPropagation(); onPortMouseUp(e, node.id, "output", i, port.type); }}
                 />
-                <text x={node.width - 12} y={relY + 4} fontFamily="'Fira Code', monospace"
+                <text x={node.width - 14} y={relY + 4} fontFamily="'Fira Code', monospace"
                   fontSize={10} fill={c} textAnchor="end"
                   style={{ userSelect: "none", pointerEvents: "none" }}>
                   {port.name}
@@ -258,10 +241,12 @@ function GraphNode({ node, selected, wiring, onSelect, onDragStart,
           })}
 
           {/* Params */}
-          {def.params.map((param, i) => {
-            const baseY = 36 + Math.max(def.inputs.length, def.outputs.length) * 26 + i * 34 + 8;
+          {def.params.map((param, i, arr) => {
+            const baseY = 44 + Math.max(def.inputs.length, def.outputs.length) * 28
+              + arr.slice(0, i).reduce((s, p) => s + (p.type === "textarea" ? 60 : 34), 0) + 8;
+            const fHeight = param.type === "textarea" ? 56 : 30;
             return (
-              <foreignObject key={param.key} x={8} y={baseY} width={node.width - 16} height={30}
+              <foreignObject key={param.key} x={8} y={baseY} width={node.width - 16} height={fHeight}
                 style={{ pointerEvents: "all" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                   <label style={{ fontFamily: "'Fira Code', monospace", fontSize: 9, color: "#64748b",
@@ -318,16 +303,12 @@ export default function NodeEditor() {
     return [n1, n2, n3, n4, n5, n6, n7];
   });
 
-  const [connections, setConnections] = useState(() => [
-    { id: "w1", fromNode: null, fromPort: 0, toNode: null, toPort: 0 }, // will fix below
-  ].slice(0)); // placeholder — will be empty, nodes wired via UI
+  const [connections, setConnections] = useState([]);
 
   const [selected, setSelected] = useState(null);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [draggingNode, setDraggingNode] = useState(null); // { id, startX, startY, mouseX, mouseY }
   const [isPanning, setIsPanning] = useState(false);
-  const [panStart, setPanStart] = useState(null);
   const [wiring, setWiring] = useState(null); // { fromNode, fromPort, fromSide, fromType, x, y }
   const [wirePos, setWirePos] = useState({ x: 0, y: 0 });
   const [contextMenu, setContextMenu] = useState(null); // { x, y }
@@ -335,14 +316,61 @@ export default function NodeEditor() {
   const [paletteSearch, setPaletteSearch] = useState("");
   const svgRef = useRef(null);
 
+  // Interaction refs (avoid re-renders during drag)
+  const dragNodeRef = useRef(null);   // { id, offsetX, offsetY }
+  const panDragRef = useRef(null);    // { startX, startY }
+  const panRef = useRef({ x: 0, y: 0 });
+  const zoomRef = useRef(1);
+  const rafRef = useRef(null);
+  useEffect(() => { panRef.current = pan; }, [pan]);
+  useEffect(() => { zoomRef.current = zoom; }, [zoom]);
+
+  // ── Streamlit lifecycle ──────────────────────────────────────────────────
+  const readyRef = useRef(false);
+
+  useEffect(() => {
+    const onRender = (event) => {
+      const args = event.detail.args || {};
+      if (!readyRef.current) {
+        if (args.initial_nodes && args.initial_nodes.length) {
+          setNodes(args.initial_nodes.map(n => ({
+            ...makeNode(n.type, n.x, n.y),
+            id: n.id,
+            params: n.params || {},
+          })));
+        }
+        if (args.initial_connections && args.initial_connections.length) {
+          setConnections(args.initial_connections);
+        }
+        readyRef.current = true;
+      }
+      Streamlit.setFrameHeight(args.height || 700);
+    };
+    Streamlit.events.addEventListener(Streamlit.RENDER_EVENT, onRender);
+    Streamlit.setComponentReady();
+    return () => Streamlit.events.removeEventListener(Streamlit.RENDER_EVENT, onRender);
+  }, []);
+
+  useEffect(() => {
+    if (readyRef.current) {
+      Streamlit.setComponentValue({
+        nodes: nodes.map(n => ({ id: n.id, type: n.type, x: n.x, y: n.y, params: n.params })),
+        connections,
+      });
+    }
+  }, [nodes, connections]);
+
+  useEffect(() => { Streamlit.setFrameHeight(); });
+
   // ── SVG coordinate helpers ──────────────────────────────────────────────────
   const svgPoint = useCallback((e) => {
     const rect = svgRef.current.getBoundingClientRect();
+    const p = panRef.current, z = zoomRef.current;
     return {
-      x: (e.clientX - rect.left - pan.x) / zoom,
-      y: (e.clientY - rect.top  - pan.y) / zoom,
+      x: (e.clientX - rect.left - p.x) / z,
+      y: (e.clientY - rect.top  - p.y) / z,
     };
-  }, [pan, zoom]);
+  }, []);
 
   const svgRaw = useCallback((e) => {
     const rect = svgRef.current.getBoundingClientRect();
@@ -354,7 +382,7 @@ export default function NodeEditor() {
     if (wiring) return;
     const pt = svgPoint(e);
     const node = nodes.find(n => n.id === id);
-    setDraggingNode({ id, offsetX: pt.x - node.x, offsetY: pt.y - node.y });
+    dragNodeRef.current = { id, offsetX: pt.x - node.x, offsetY: pt.y - node.y };
   }, [nodes, svgPoint, wiring]);
 
   // ── Pan canvas ────────────────────────────────────────────────────────────
@@ -362,32 +390,44 @@ export default function NodeEditor() {
     if (e.button === 1 || e.button === 2 || (e.button === 0 && !wiring)) {
       if (e.button !== 2) {
         setIsPanning(true);
-        setPanStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+        panDragRef.current = { startX: e.clientX - panRef.current.x, startY: e.clientY - panRef.current.y };
       }
       setSelected(null);
     }
-  }, [pan, wiring]);
+  }, [wiring]);
 
-  // ── Mouse move ─────────────────────────────────────────────────────────────
+  // ── Mouse move (rAF-throttled) ─────────────────────────────────────────────
   const handleMouseMove = useCallback((e) => {
-    if (draggingNode) {
-      const pt = svgPoint(e);
-      setNodes(ns => ns.map(n => n.id === draggingNode.id
-        ? { ...n, x: pt.x - draggingNode.offsetX, y: pt.y - draggingNode.offsetY }
-        : n
-      ));
-    }
-    if (isPanning && panStart) {
-      setPan({ x: e.clientX - panStart.x, y: e.clientY - panStart.y });
-    }
-    if (wiring) {
-      const raw = svgRaw(e);
-      setWirePos(raw);
-    }
-  }, [draggingNode, isPanning, panStart, wiring, svgPoint, svgRaw]);
+    const cx = e.clientX, cy = e.clientY;
+
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      if (dragNodeRef.current) {
+        const rect = svgRef.current.getBoundingClientRect();
+        const p = panRef.current, z = zoomRef.current;
+        const ptx = (cx - rect.left - p.x) / z;
+        const pty = (cy - rect.top  - p.y) / z;
+        const d = dragNodeRef.current;
+        setNodes(ns => ns.map(n => n.id === d.id
+          ? { ...n, x: ptx - d.offsetX, y: pty - d.offsetY }
+          : n
+        ));
+      }
+      if (panDragRef.current) {
+        const newPan = { x: cx - panDragRef.current.startX, y: cy - panDragRef.current.startY };
+        panRef.current = newPan;
+        setPan(newPan);
+      }
+      if (wiring) {
+        const rect = svgRef.current.getBoundingClientRect();
+        setWirePos({ x: cx - rect.left, y: cy - rect.top });
+      }
+    });
+  }, [wiring]);
 
   const handleMouseUp = useCallback(() => {
-    setDraggingNode(null);
+    dragNodeRef.current = null;
+    panDragRef.current = null;
     setIsPanning(false);
     if (wiring) setWiring(null);
   }, [wiring]);
@@ -496,24 +536,22 @@ export default function NodeEditor() {
         fontFamily: "'Fira Code', monospace", position: "relative", userSelect: "none" }}>
 
         {/* ── Toolbar ───────────────────────────────────────────────────── */}
-        <div style={{ position: "absolute", top: 12, left: "50%", transform: "translateX(-50%)",
-          display: "flex", gap: 8, zIndex: 100, alignItems: "center" }}>
-          <div style={{ background: "rgba(15,15,26,0.95)", border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: 10, padding: "6px 14px", display: "flex", gap: 12, alignItems: "center" }}>
-            <span style={{ fontSize: 11, color: "#64748b", letterSpacing: "0.1em" }}>NODE GRAPH</span>
-            <div style={{ width: 1, height: 16, background: "rgba(255,255,255,0.1)" }} />
+        <div style={{ position: "absolute", top: 10, right: 12,
+          display: "flex", gap: 6, zIndex: 100, alignItems: "center" }}>
+          <div style={{ background: "rgba(15,15,26,0.85)", border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: 8, padding: "5px 10px", display: "flex", gap: 8, alignItems: "center",
+            backdropFilter: "blur(8px)" }}>
             <button onClick={() => { setPalette(p => !p); setContextMenu(null); }} style={{
               background: palette ? "rgba(99,102,241,0.3)" : "rgba(255,255,255,0.05)",
               border: `1px solid ${palette ? "rgba(99,102,241,0.5)" : "rgba(255,255,255,0.1)"}`,
-              borderRadius: 6, color: palette ? "#818cf8" : "#94a3b8",
-              padding: "4px 12px", cursor: "pointer", fontSize: 11, letterSpacing: "0.05em"
-            }}>+ ADD NODE</button>
-            <span style={{ fontSize: 10, color: "#334155" }}>Right-click canvas to add · Del to remove · Drag ports to connect</span>
-            <div style={{ width: 1, height: 16, background: "rgba(255,255,255,0.1)" }} />
+              borderRadius: 5, color: palette ? "#818cf8" : "#94a3b8",
+              padding: "3px 10px", cursor: "pointer", fontSize: 10, letterSpacing: "0.05em"
+            }}>+ ADD</button>
+            <div style={{ width: 1, height: 14, background: "rgba(255,255,255,0.08)" }} />
             <span style={{ fontSize: 10, color: "#475569" }}>{Math.round(zoom * 100)}%</span>
-            <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }}
-              style={{ background: "none", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 5,
-                color: "#475569", padding: "3px 8px", cursor: "pointer", fontSize: 10 }}>RESET</button>
+            <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); panRef.current = { x: 0, y: 0 }; zoomRef.current = 1; }}
+              style={{ background: "none", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 4,
+                color: "#475569", padding: "2px 6px", cursor: "pointer", fontSize: 9 }}>RESET</button>
           </div>
         </div>
 
