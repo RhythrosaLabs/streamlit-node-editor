@@ -15,7 +15,6 @@ setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Framework :: Streamlit",
     ],
     python_requires=">=3.8",
     install_requires=["streamlit>=1.28.0"],
