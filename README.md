@@ -2,7 +2,7 @@
 
 A ComfyUI / Unreal Blueprints-style node graph editor for Streamlit. Define typed node types in Python, let users build graphs by dragging ports and connecting nodes, and get the full graph state back as structured JSON.
 
-![Node editor screenshot](https://raw.githubusercontent.com/RhythrosaLabs/streamlit-node-editor/main/docs/screenshot.png)
+![Node editor screenshot](https://raw.githubusercontent.com/RhythrosaLabs/streamlit-node-editor/main/screenshot.png)
 
 ## Features
 
