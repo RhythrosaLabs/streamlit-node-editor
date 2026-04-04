@@ -8,7 +8,7 @@ setup(
     description="A ComfyUI/Blueprints-style node graph editor for Streamlit — typed ports, drag-to-connect, inline params",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/streamlit-node-editor",
+    url="https://github.com/RhythrosaLabs/streamlit-node-editor",
     packages=find_packages(),
     include_package_data=True,
     classifiers=[
