@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="streamlit-node-editor",
-    version="0.3.1",
+    version="0.3.2",
     author="Dan Sheils",
     author_email="",
     description="A ComfyUI/Blueprints-style node graph editor for Streamlit — typed ports, drag-to-connect, inline params",

@@ -1,117 +1,166 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="1200" height="700">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0e0e1c"/><stop offset="100%" stop-color="#08080f"/></linearGradient>
-    <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-      <circle cx="12" cy="12" r="1" fill="rgba(255,255,255,0.04)"/>
+    <pattern id="dotgrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="0.8" fill="rgba(255,255,255,0.04)"/>
     </pattern>
   </defs>
+
   <!-- Background -->
-  <rect width="900" height="520" rx="14" fill="url(#bg)" stroke="rgba(255,255,255,0.06)"/>
-  <!-- Dot grid -->
-  <rect x="0" y="40" width="900" height="480" fill="url(#dots)"/>
-  <!-- Toolbar -->
-  <rect x="0" y="0" width="900" height="40" rx="14" fill="#0e0e1c"/>
-  <rect x="0" y="14" width="900" height="26" fill="#0e0e1c"/>
-  <line x1="0" y1="40" x2="900" y2="40" stroke="rgba(255,255,255,0.06)"/>
-  <text x="20" y="26" font-family="sans-serif" font-size="13" fill="#e2e8f0" font-weight="700">Node Editor</text>
-  <rect x="114" y="12" width="70" height="20" rx="6" fill="rgba(129,140,248,0.1)" stroke="rgba(129,140,248,0.3)"/>
-  <text x="149" y="26" font-family="sans-serif" font-size="9" fill="#818cf8" text-anchor="middle">+ Add Node</text>
-  <rect x="190" y="12" width="56" height="20" rx="6" fill="rgba(255,255,255,0.03)"/>
-  <text x="218" y="26" font-family="sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">🔍 Search</text>
-  <text x="780" y="26" font-family="sans-serif" font-size="9" fill="#475569">3 nodes · 2 wires</text>
-  <!-- Node 1: CSV Source (green header) -->
-  <g transform="translate(60,80)">
-    <rect x="0" y="0" width="200" height="140" rx="10" fill="rgba(10,10,20,0.9)" stroke="rgba(255,255,255,0.08)"/>
-    <!-- Header -->
-    <rect x="0" y="0" width="200" height="32" rx="10" fill="#4ade80"/>
-    <rect x="0" y="14" width="200" height="18" fill="#4ade80"/>
-    <text x="14" y="21" font-family="sans-serif" font-size="11" fill="#0f172a" font-weight="700">CSV Source</text>
-    <text x="170" y="21" font-family="sans-serif" font-size="9" fill="rgba(0,0,0,0.4)">Sources</text>
-    <!-- Params -->
-    <text x="14" y="52" font-family="sans-serif" font-size="9" fill="#94a3b8">File path</text>
-    <rect x="14" y="58" width="172" height="22" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)"/>
-    <text x="22" y="73" font-family="sans-serif" font-size="9" fill="#e2e8f0">data.csv</text>
-    <text x="14" y="96" font-family="sans-serif" font-size="9" fill="#94a3b8">Separator</text>
-    <rect x="14" y="102" width="172" height="22" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)"/>
-    <text x="22" y="117" font-family="sans-serif" font-size="9" fill="#e2e8f0">,</text>
-    <!-- Output port -->
-    <circle cx="200" cy="50" r="7" fill="#4ade80" stroke="#0e0e1c" stroke-width="2"/>
-    <text x="184" y="54" font-family="sans-serif" font-size="7" fill="#4ade80" text-anchor="end">dataframe</text>
-  </g>
-  <!-- Node 2: Filter Rows (blue header) -->
-  <g transform="translate(380,120)">
-    <rect x="0" y="0" width="200" height="120" rx="10" fill="rgba(10,10,20,0.9)" stroke="rgba(129,140,248,0.3)"/>
-    <!-- Selected glow -->
-    <rect x="-2" y="-2" width="204" height="124" rx="12" fill="none" stroke="#818cf8" stroke-width="1.5" opacity="0.6"/>
-    <!-- Header -->
-    <rect x="0" y="0" width="200" height="32" rx="10" fill="#38bdf8"/>
-    <rect x="0" y="14" width="200" height="18" fill="#38bdf8"/>
-    <text x="14" y="21" font-family="sans-serif" font-size="11" fill="#0f172a" font-weight="700">Filter Rows</text>
-    <text x="158" y="21" font-family="sans-serif" font-size="9" fill="rgba(0,0,0,0.4)">Transform</text>
-    <!-- Input port -->
-    <circle cx="0" cy="50" r="7" fill="#4ade80" stroke="#0e0e1c" stroke-width="2"/>
-    <text x="16" y="54" font-family="sans-serif" font-size="7" fill="#4ade80">df_in</text>
-    <!-- Params -->
-    <text x="14" y="72" font-family="sans-serif" font-size="9" fill="#94a3b8">Query expr</text>
-    <rect x="14" y="78" width="172" height="22" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)"/>
-    <text x="22" y="93" font-family="sans-serif" font-size="9" fill="#e2e8f0">value &gt; 0</text>
-    <!-- Output port -->
-    <circle cx="200" cy="50" r="7" fill="#4ade80" stroke="#0e0e1c" stroke-width="2"/>
-    <text x="184" y="54" font-family="sans-serif" font-size="7" fill="#4ade80" text-anchor="end">df_out</text>
-  </g>
-  <!-- Node 3: Bar Chart (orange header) -->
-  <g transform="translate(680,200)">
-    <rect x="0" y="0" width="190" height="140" rx="10" fill="rgba(10,10,20,0.9)" stroke="rgba(255,255,255,0.08)"/>
-    <!-- Header -->
-    <rect x="0" y="0" width="190" height="32" rx="10" fill="#fb923c"/>
-    <rect x="0" y="14" width="190" height="18" fill="#fb923c"/>
-    <text x="14" y="21" font-family="sans-serif" font-size="11" fill="#0f172a" font-weight="700">Bar Chart</text>
-    <text x="155" y="21" font-family="sans-serif" font-size="9" fill="rgba(0,0,0,0.4)">Outputs</text>
-    <!-- Input port -->
-    <circle cx="0" cy="50" r="7" fill="#4ade80" stroke="#0e0e1c" stroke-width="2"/>
-    <text x="16" y="54" font-family="sans-serif" font-size="7" fill="#4ade80">dataframe</text>
-    <!-- Params -->
-    <text x="14" y="72" font-family="sans-serif" font-size="9" fill="#94a3b8">X column</text>
-    <rect x="14" y="78" width="162" height="22" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)"/>
-    <text x="22" y="93" font-family="sans-serif" font-size="9" fill="#e2e8f0">date</text>
-    <text x="14" y="114" font-family="sans-serif" font-size="9" fill="#94a3b8">Y column</text>
-    <rect x="14" y="120" width="162" height="22" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)"/>
-    <text x="22" y="135" font-family="sans-serif" font-size="9" fill="#e2e8f0">revenue</text>
-  </g>
-  <!-- Wire 1: CSV Source -> Filter Rows -->
-  <path d="M260,130 C320,130 320,170 380,170" stroke="#4ade80" stroke-width="2.5" fill="none" opacity="0.6"/>
-  <!-- Animated dots on wire -->
-  <circle r="3" fill="#4ade80" opacity="0.8">
-    <animateMotion dur="2s" repeatCount="indefinite" path="M260,130 C320,130 320,170 380,170"/>
-  </circle>
-  <!-- Wire 2: Filter Rows -> Bar Chart -->
-  <path d="M580,170 C630,170 630,250 680,250" stroke="#4ade80" stroke-width="2.5" fill="none" opacity="0.6"/>
-  <circle r="3" fill="#4ade80" opacity="0.8">
-    <animateMotion dur="2s" repeatCount="indefinite" path="M580,170 C630,170 630,250 680,250"/>
-  </circle>
-  <!-- Node palette (collapsed, floating) -->
-  <rect x="30" y="320" width="180" height="170" rx="10" fill="rgba(10,10,20,0.95)" stroke="rgba(255,255,255,0.08)"/>
-  <text x="44" y="340" font-family="sans-serif" font-size="10" fill="#e2e8f0" font-weight="600">Node Palette</text>
-  <rect x="40" y="348" width="160" height="22" rx="6" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.06)"/>
-  <text x="52" y="363" font-family="sans-serif" font-size="9" fill="#475569">🔍 Search nodes…</text>
-  <text x="44" y="384" font-family="sans-serif" font-size="8" fill="#475569" letter-spacing="1" font-weight="600">SOURCES</text>
-  <text x="52" y="400" font-family="sans-serif" font-size="9" fill="#e2e8f0">CSV Source</text>
-  <text x="52" y="414" font-family="sans-serif" font-size="9" fill="#e2e8f0">API Fetch</text>
-  <text x="44" y="432" font-family="sans-serif" font-size="8" fill="#475569" letter-spacing="1" font-weight="600">TRANSFORM</text>
-  <text x="52" y="448" font-family="sans-serif" font-size="9" fill="#e2e8f0">Filter Rows</text>
-  <text x="52" y="462" font-family="sans-serif" font-size="9" fill="#e2e8f0">Group By</text>
-  <text x="52" y="476" font-family="sans-serif" font-size="9" fill="#94a3b8">…</text>
-  <!-- Port type legend -->
-  <g transform="translate(660,400)">
-    <rect x="0" y="0" width="210" height="90" rx="8" fill="rgba(10,10,20,0.9)" stroke="rgba(255,255,255,0.06)"/>
-    <text x="14" y="18" font-family="sans-serif" font-size="8" fill="#475569" letter-spacing="1" font-weight="600">PORT TYPES</text>
-    <circle cx="20" cy="34" r="4" fill="#4ade80"/><text x="30" y="38" font-family="sans-serif" font-size="8" fill="#94a3b8">DATAFRAME</text>
-    <circle cx="110" cy="34" r="4" fill="#a78bfa"/><text x="120" y="38" font-family="sans-serif" font-size="8" fill="#94a3b8">LATENT</text>
-    <circle cx="20" cy="52" r="4" fill="#fb923c"/><text x="30" y="56" font-family="sans-serif" font-size="8" fill="#94a3b8">MODEL</text>
-    <circle cx="110" cy="52" r="4" fill="#facc15"/><text x="120" y="56" font-family="sans-serif" font-size="8" fill="#94a3b8">CLIP</text>
-    <circle cx="20" cy="70" r="4" fill="#818cf8"/><text x="30" y="74" font-family="sans-serif" font-size="8" fill="#94a3b8">FLOAT</text>
-    <circle cx="110" cy="70" r="4" fill="#94a3b8"/><text x="120" y="74" font-family="sans-serif" font-size="8" fill="#94a3b8">STRING</text>
-  </g>
-  <!-- Footer -->
-  <text x="450" y="510" font-family="sans-serif" font-size="8" fill="rgba(255,255,255,0.15)" text-anchor="middle">Drag to connect ports · Click wire to delete · Delete/Backspace removes node · Right-click for palette · Scroll to zoom</text>
+  <rect width="1200" height="700" rx="12" fill="#080810"/>
+  <rect width="1200" height="700" rx="12" fill="url(#dotgrid)"/>
+
+  <!-- ===== Node 1: Load Checkpoint (orange header) ===== -->
+  <!-- Shadow -->
+  <rect x="63" y="83" width="240" height="145" rx="8" fill="rgba(0,0,0,0.45)"/>
+  <!-- Body -->
+  <rect x="60" y="80" width="240" height="145" rx="8" fill="#13131f" stroke="rgba(255,255,255,0.12)"/>
+  <!-- Header -->
+  <rect x="60" y="80" width="240" height="32" rx="8" fill="rgba(251,146,60,0.9)"/>
+  <rect x="60" y="100" width="240" height="12" fill="rgba(251,146,60,0.9)"/>
+  <text x="76" y="101" font-family="monospace" font-size="12" fill="rgba(0,0,0,0.85)" font-weight="600">Load Checkpoint</text>
+  <text x="282" y="101" font-family="monospace" font-size="12" fill="rgba(0,0,0,0.6)" text-anchor="end">−</text>
+  <!-- Output port: MODEL -->
+  <circle cx="301" cy="132" r="5.5" fill="#fb923c" stroke="#fb923c" stroke-width="2"/>
+  <text x="286" y="136" font-family="monospace" font-size="10" fill="#fb923c" text-anchor="end">model</text>
+  <!-- Output port: CLIP -->
+  <circle cx="301" cy="156" r="5.5" fill="#facc15" stroke="#facc15" stroke-width="2"/>
+  <text x="286" y="160" font-family="monospace" font-size="10" fill="#facc15" text-anchor="end">clip</text>
+  <!-- Output port: VAE -->
+  <circle cx="301" cy="180" r="5.5" fill="#f87171" stroke="#f87171" stroke-width="2"/>
+  <text x="286" y="184" font-family="monospace" font-size="10" fill="#f87171" text-anchor="end">vae</text>
+  <!-- Param -->
+  <text x="76" y="132" font-family="monospace" font-size="9" fill="#64748b">CKPT</text>
+  <rect x="108" y="120" width="130" height="22" rx="4" fill="#0f0f1a" stroke="rgba(255,255,255,0.1)"/>
+  <text x="116" y="135" font-family="monospace" font-size="10" fill="#e2e8f0">v1-5-pruned.ckpt</text>
+
+  <!-- ===== Node 2: CLIP Text Encode (positive, yellow) ===== -->
+  <rect x="363" y="63" width="240" height="120" rx="8" fill="rgba(0,0,0,0.45)"/>
+  <rect x="360" y="60" width="240" height="120" rx="8" fill="#13131f" stroke="rgba(255,255,255,0.12)"/>
+  <rect x="360" y="60" width="240" height="32" rx="8" fill="rgba(250,204,21,0.9)"/>
+  <rect x="360" y="80" width="240" height="12" fill="rgba(250,204,21,0.9)"/>
+  <text x="376" y="81" font-family="monospace" font-size="12" fill="rgba(0,0,0,0.85)" font-weight="600">CLIP Text Encode</text>
+  <text x="582" y="81" font-family="monospace" font-size="12" fill="rgba(0,0,0,0.6)" text-anchor="end">−</text>
+  <!-- Input: clip -->
+  <circle cx="359" cy="112" r="5.5" fill="#facc15" stroke="#facc15" stroke-width="2"/>
+  <text x="374" y="116" font-family="monospace" font-size="10" fill="#facc15">clip</text>
+  <!-- Output: conditioning -->
+  <circle cx="601" cy="112" r="5.5" fill="#fb923c" stroke="#fb923c" stroke-width="2"/>
+  <text x="586" y="116" font-family="monospace" font-size="10" fill="#fb923c" text-anchor="end">cond</text>
+  <!-- Param: text -->
+  <text x="376" y="144" font-family="monospace" font-size="9" fill="#64748b">TEXT</text>
+  <rect x="376" y="148" width="208" height="22" rx="4" fill="#0f0f1a" stroke="rgba(255,255,255,0.1)"/>
+  <text x="384" y="163" font-family="monospace" font-size="10" fill="#e2e8f0">a beautiful landscape</text>
+
+  <!-- ===== Node 3: CLIP Text Encode (negative, yellow) ===== -->
+  <rect x="363" y="213" width="240" height="120" rx="8" fill="rgba(0,0,0,0.45)"/>
+  <rect x="360" y="210" width="240" height="120" rx="8" fill="#13131f" stroke="rgba(255,255,255,0.12)"/>
+  <rect x="360" y="210" width="240" height="32" rx="8" fill="rgba(250,204,21,0.9)"/>
+  <rect x="360" y="230" width="240" height="12" fill="rgba(250,204,21,0.9)"/>
+  <text x="376" y="231" font-family="monospace" font-size="12" fill="rgba(0,0,0,0.85)" font-weight="600">CLIP Text Encode</text>
+  <text x="582" y="231" font-family="monospace" font-size="12" fill="rgba(0,0,0,0.6)" text-anchor="end">−</text>
+  <circle cx="359" cy="262" r="5.5" fill="#facc15" stroke="#facc15" stroke-width="2"/>
+  <text x="374" y="266" font-family="monospace" font-size="10" fill="#facc15">clip</text>
+  <circle cx="601" cy="262" r="5.5" fill="#fb923c" stroke="#fb923c" stroke-width="2"/>
+  <text x="586" y="266" font-family="monospace" font-size="10" fill="#fb923c" text-anchor="end">cond</text>
+  <text x="376" y="294" font-family="monospace" font-size="9" fill="#64748b">TEXT</text>
+  <rect x="376" y="298" width="208" height="22" rx="4" fill="#0f0f1a" stroke="rgba(255,255,255,0.1)"/>
+  <text x="384" y="313" font-family="monospace" font-size="10" fill="#e2e8f0">ugly, blurry, low quality</text>
+
+  <!-- ===== Node 4: Empty Latent Image (purple) ===== -->
+  <rect x="363" y="393" width="240" height="140" rx="8" fill="rgba(0,0,0,0.45)"/>
+  <rect x="360" y="390" width="240" height="140" rx="8" fill="#13131f" stroke="rgba(255,255,255,0.12)"/>
+  <rect x="360" y="390" width="240" height="32" rx="8" fill="rgba(192,132,252,0.9)"/>
+  <rect x="360" y="410" width="240" height="12" fill="rgba(192,132,252,0.9)"/>
+  <text x="376" y="411" font-family="monospace" font-size="12" fill="rgba(0,0,0,0.85)" font-weight="600">Empty Latent Image</text>
+  <circle cx="601" cy="444" r="5.5" fill="#c084fc" stroke="#c084fc" stroke-width="2"/>
+  <text x="586" y="448" font-family="monospace" font-size="10" fill="#c084fc" text-anchor="end">latent</text>
+  <text x="376" y="452" font-family="monospace" font-size="9" fill="#64748b">W</text>
+  <rect x="400" y="440" width="60" height="22" rx="4" fill="#0f0f1a" stroke="rgba(255,255,255,0.1)"/>
+  <text x="408" y="455" font-family="monospace" font-size="10" fill="#e2e8f0">512</text>
+  <text x="376" y="480" font-family="monospace" font-size="9" fill="#64748b">H</text>
+  <rect x="400" y="468" width="60" height="22" rx="4" fill="#0f0f1a" stroke="rgba(255,255,255,0.1)"/>
+  <text x="408" y="483" font-family="monospace" font-size="10" fill="#e2e8f0">512</text>
+  <text x="376" y="510" font-family="monospace" font-size="9" fill="#64748b">BATCH</text>
+  <rect x="420" y="498" width="40" height="22" rx="4" fill="#0f0f1a" stroke="rgba(255,255,255,0.1)"/>
+  <text x="428" y="513" font-family="monospace" font-size="10" fill="#e2e8f0">1</text>
+
+  <!-- ===== Node 5: KSampler (indigo) ===== -->
+  <rect x="683" y="183" width="240" height="200" rx="8" fill="rgba(0,0,0,0.45)"/>
+  <rect x="680" y="180" width="240" height="200" rx="8" fill="#13131f" stroke="white" stroke-width="1.5"/>
+  <rect x="680" y="180" width="240" height="32" rx="8" fill="rgba(129,140,248,0.9)"/>
+  <rect x="680" y="200" width="240" height="12" fill="rgba(129,140,248,0.9)"/>
+  <text x="696" y="201" font-family="monospace" font-size="12" fill="rgba(0,0,0,0.85)" font-weight="600">KSampler</text>
+  <text x="902" y="201" font-family="monospace" font-size="12" fill="rgba(0,0,0,0.6)" text-anchor="end">−</text>
+  <!-- Inputs -->
+  <circle cx="679" cy="232" r="5.5" fill="#fb923c" stroke="#fb923c" stroke-width="2"/>
+  <text x="694" y="236" font-family="monospace" font-size="10" fill="#fb923c">model</text>
+  <circle cx="679" cy="256" r="5.5" fill="#fb923c" stroke="#fb923c" stroke-width="2"/>
+  <text x="694" y="260" font-family="monospace" font-size="10" fill="#fb923c">positive</text>
+  <circle cx="679" cy="280" r="5.5" fill="#fb923c" stroke="#fb923c" stroke-width="2"/>
+  <text x="694" y="284" font-family="monospace" font-size="10" fill="#fb923c">negative</text>
+  <circle cx="679" cy="304" r="5.5" fill="#c084fc" stroke="#c084fc" stroke-width="2"/>
+  <text x="694" y="308" font-family="monospace" font-size="10" fill="#c084fc">latent</text>
+  <!-- Output -->
+  <circle cx="921" cy="232" r="5.5" fill="#c084fc" stroke="#c084fc" stroke-width="2"/>
+  <text x="906" y="236" font-family="monospace" font-size="10" fill="#c084fc" text-anchor="end">latent</text>
+  <!-- Params -->
+  <text x="696" y="332" font-family="monospace" font-size="9" fill="#64748b">SEED</text>
+  <rect x="730" y="320" width="80" height="22" rx="4" fill="#0f0f1a" stroke="rgba(255,255,255,0.1)"/>
+  <text x="738" y="335" font-family="monospace" font-size="10" fill="#e2e8f0">156680</text>
+  <text x="696" y="358" font-family="monospace" font-size="9" fill="#64748b">STEPS</text>
+  <rect x="740" y="346" width="50" height="22" rx="4" fill="#0f0f1a" stroke="rgba(255,255,255,0.1)"/>
+  <text x="748" y="361" font-family="monospace" font-size="10" fill="#e2e8f0">20</text>
+
+  <!-- ===== Node 6: VAE Decode (red) ===== -->
+  <rect x="1003" y="263" width="240" height="110" rx="8" fill="rgba(0,0,0,0.45)"/>
+  <rect x="1000" y="260" width="240" height="110" rx="8" fill="#13131f" stroke="rgba(255,255,255,0.12)"/>
+  <rect x="1000" y="260" width="240" height="32" rx="8" fill="rgba(248,113,113,0.9)"/>
+  <rect x="1000" y="280" width="240" height="12" fill="rgba(248,113,113,0.9)"/>
+  <text x="1016" y="281" font-family="monospace" font-size="12" fill="rgba(0,0,0,0.85)" font-weight="600">VAE Decode</text>
+  <!-- Inputs -->
+  <circle cx="999" cy="312" r="5.5" fill="#c084fc" stroke="#c084fc" stroke-width="2"/>
+  <text x="1014" y="316" font-family="monospace" font-size="10" fill="#c084fc">latent</text>
+  <circle cx="999" cy="336" r="5.5" fill="#f87171" stroke="#f87171" stroke-width="2"/>
+  <text x="1014" y="340" font-family="monospace" font-size="10" fill="#f87171">vae</text>
+  <!-- Output -->
+  <circle cx="1241" cy="312" r="5.5" fill="#4ade80" stroke="#4ade80" stroke-width="2"/>
+  <text x="1226" y="316" font-family="monospace" font-size="10" fill="#4ade80" text-anchor="end">image</text>
+
+  <!-- ===== Wires (bezier curves) ===== -->
+  <!-- Load Checkpoint model → KSampler model -->
+  <path d="M301,132 C420,132 560,232 679,232" fill="none" stroke="#fb923c" stroke-width="2.5" opacity="0.85"/>
+  <!-- Load Checkpoint clip → CLIP positive clip -->
+  <path d="M301,156 C320,156 340,112 359,112" fill="none" stroke="#facc15" stroke-width="2.5" opacity="0.85"/>
+  <!-- Load Checkpoint clip → CLIP negative clip -->
+  <path d="M301,156 C320,156 340,262 359,262" fill="none" stroke="#facc15" stroke-width="2.5" opacity="0.85"/>
+  <!-- Load Checkpoint vae → VAE Decode vae -->
+  <path d="M301,180 C500,180 800,336 999,336" fill="none" stroke="#f87171" stroke-width="2.5" opacity="0.85"/>
+  <!-- CLIP positive cond → KSampler positive -->
+  <path d="M601,112 C640,112 640,256 679,256" fill="none" stroke="#fb923c" stroke-width="2.5" opacity="0.85"/>
+  <!-- CLIP negative cond → KSampler negative -->
+  <path d="M601,262 C640,262 640,280 679,280" fill="none" stroke="#fb923c" stroke-width="2.5" opacity="0.85"/>
+  <!-- Empty Latent → KSampler latent -->
+  <path d="M601,444 C640,444 640,304 679,304" fill="none" stroke="#c084fc" stroke-width="2.5" opacity="0.85"/>
+  <!-- KSampler latent → VAE Decode latent -->
+  <path d="M921,232 C960,232 960,312 999,312" fill="none" stroke="#c084fc" stroke-width="2.5" opacity="0.85"/>
+
+  <!-- ===== Toolbar (top-right) ===== -->
+  <rect x="960" y="14" width="220" height="36" rx="8" fill="rgba(15,15,26,0.85)" stroke="rgba(255,255,255,0.08)"/>
+  <rect x="968" y="20" width="60" height="24" rx="6" fill="rgba(99,102,241,0.3)" stroke="rgba(99,102,241,0.5)"/>
+  <text x="998" y="36" font-family="monospace" font-size="11" fill="#818cf8" text-anchor="middle">+ ADD</text>
+  <text x="1068" y="36" font-family="monospace" font-size="10" fill="#475569" text-anchor="middle">100%</text>
+  <rect x="1110" y="20" width="58" height="24" rx="6" fill="none" stroke="rgba(255,255,255,0.08)"/>
+  <text x="1139" y="36" font-family="monospace" font-size="9" fill="#475569" text-anchor="middle">RESET</text>
+
+  <!-- ===== Port type legend (bottom-left) ===== -->
+  <rect x="14" y="560" width="360" height="126" rx="8" fill="rgba(13,13,25,0.9)" stroke="rgba(255,255,255,0.07)"/>
+  <circle cx="30" cy="580" r="4" fill="#4ade80"/><text x="42" y="584" font-family="monospace" font-size="9" fill="#475569">IMAGE</text>
+  <circle cx="100" cy="580" r="4" fill="#c084fc"/><text x="112" y="584" font-family="monospace" font-size="9" fill="#475569">LATENT</text>
+  <circle cx="178" cy="580" r="4" fill="#fb923c"/><text x="190" y="584" font-family="monospace" font-size="9" fill="#475569">MODEL</text>
+  <circle cx="250" cy="580" r="4" fill="#facc15"/><text x="262" y="584" font-family="monospace" font-size="9" fill="#475569">CLIP</text>
+  <circle cx="310" cy="580" r="4" fill="#f87171"/><text x="322" y="584" font-family="monospace" font-size="9" fill="#475569">VAE</text>
+  <circle cx="30" cy="600" r="4" fill="#38bdf8"/><text x="42" y="604" font-family="monospace" font-size="9" fill="#475569">INT</text>
+  <circle cx="100" cy="600" r="4" fill="#818cf8"/><text x="112" y="604" font-family="monospace" font-size="9" fill="#475569">FLOAT</text>
+  <circle cx="178" cy="600" r="4" fill="#a8a29e"/><text x="190" y="604" font-family="monospace" font-size="9" fill="#475569">STRING</text>
+  <circle cx="250" cy="600" r="4" fill="#2dd4bf"/><text x="262" y="604" font-family="monospace" font-size="9" fill="#475569">MASK</text>
 </svg>

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2
+
+- Update SVG screenshot to match actual app UI
+
 ## 0.2.0
 
 - Wire up Streamlit bidirectional communication (setComponentReady, RENDER_EVENT, setComponentValue)
