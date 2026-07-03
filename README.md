@@ -367,3 +367,8 @@ MIT — see [LICENSE](LICENSE) for details.
 - **GitHub:** [https://github.com/RhythrosaLabs/streamlit-node-editor](https://github.com/RhythrosaLabs/streamlit-node-editor)
 - **Changelog:** [CHANGELOG.md](CHANGELOG.md)
 - **Issues:** [https://github.com/RhythrosaLabs/streamlit-node-editor/issues](https://github.com/RhythrosaLabs/streamlit-node-editor/issues)
+
+
+## Support
+
+If you find this useful, consider supporting via [PayPal](https://paypal.me/noodlebake)
