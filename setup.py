@@ -10,6 +10,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/RhythrosaLabs/streamlit-node-editor",
     project_urls={
+        "Portfolio": "https://rhythrosalabs.github.io/",
         "Bug Tracker": "https://github.com/RhythrosaLabs/streamlit-node-editor/issues",
         "Changelog": "https://github.com/RhythrosaLabs/streamlit-node-editor/blob/main/CHANGELOG.md",
     },
